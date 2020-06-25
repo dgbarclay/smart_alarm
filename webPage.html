@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<!--
+<meta http-equiv="refresh" content="30">
+-->
+<meta http-equiv="refresh" content="30;URL='/'" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+  <head>
+    <meta charset="utf-8">
+    <title>SmartAlarm</title>
+  </head>
+  <body>
+    <div class="tile is-ancestor">
+      <div class="tile is-vertical is-8">
+        <div class="tile">
+          <div class="tile is-parent is-vertical">
+            <article class="tile is-child box">
+              <p class="title">Smart Alarm</p>
+              <p class="title" id="dateTime"></p>
+              <form method="get">
+              <p class="subtitle">Create Alarm: </p>
+              Alarm description: <input type="text" name="description"><br>
+              <input type="datetime-local" name="alarm">
+              <input type="checkbox" name="repeat" value="true"> Repeat Alarm Weekly?<br>
+              <input type="submit" value="Set Alarm">
+              </form>
+              </br>
+            </article>
+            <article class="tile is-child box">
+              <p class="subtitle">Current Weather: <b>{{location}}</b></p>
+                {% for weather in weather_update %}
+                    <p>{{weather}}</p>
+                {% endfor%}
+                <img src="http://openweathermap.org/img/wn/{{icon}}@2x.png">
+            </article>
+          </div>
+          <div class="tile is-parent">
+            <article class="tile is-child box">
+              <p class="subtitle"><b>Top News Stories:</b></p>
+              <div class="content">
+              <ul>
+                {% for news in news_headlines %}
+                    <li>{{news}}</li>
+                {% endfor%}
+              </ul>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div class="tile is-parent">
+          <article class="tile is-child box">
+            <p class="subtitle"><b>Sports Headlines:</b></p>
+            <div class="content">
+            <ul>
+              {% for sport in sport_headlines %}
+                  <li>{{sport}}</li>
+              {% endfor%}
+            </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="tile is-parent">
+        <article class="tile is-child box">
+          <p class="title">Active Alarms:</p>
+          <div class="content">
+          <ul>
+            {% for alarm in alarm_list %}
+                <li>{{alarm}}</li>
+                <form method="get" action="">
+                <input type="text" name="cancel" placeholder="Copy and paste full alarm.">
+                <input type="submit" value="Cancel Alarm">
+                </form>
+            {% endfor%}
+          </ul>
+          </div>
+          <p class="title">Expired Alarms:</p>
+          <div class="content">
+            <form method="get" action="">
+            <input type="submit" value="Clear Notifications" name="clear">
+            </form>
+          <ul>
+            {% for alarm in alarm_expired_list %}
+                <li>{{alarm}}</li>
+            {% endfor%}
+          </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+function get_time()
+{
+  var date = new Date();
+  document.getElementById("dateTime").innerHTML = date.toLocaleString();
+  setTimeout(get_time, 1000);
+}
+get_time();
+</script>
